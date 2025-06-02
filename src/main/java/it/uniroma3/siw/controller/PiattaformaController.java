@@ -21,7 +21,7 @@ public class PiattaformaController {
 	}
 	
 	
-	//MOSTRA DETTAGLIN DELLA SPECIFICA PIATTAFORMA
+	//MOSTRA DETTAGLI DELLA SPECIFICA PIATTAFORMA
 	@GetMapping("/piattaforme/{id}")
 	public String dettagliPiattaforma(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("piattaforma", this.piattaformaService.getPiattaformaById(id)); // ottengo la piattaforma con lo specifico id
