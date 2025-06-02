@@ -7,3 +7,5 @@ import it.uniroma3.siw.model.Videogioco;
 public interface VideogiocoRepository extends CrudRepository<Videogioco, Long> {
 
 }
+
+//ciao
