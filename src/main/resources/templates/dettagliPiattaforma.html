@@ -30,7 +30,7 @@
 
     <main>
         <section class="dettagli-container">
-            <img th:src="${piattaforma.image != null ? piattaforma.image : '/defaultplatform.png'}" alt="Logo di ${piattaforma.nome}">
+            <img th:src="${piattaforma.image != null ? piattaforma.image : '/defaultcover.png'}" alt="Logo di ${piattaforma.nome}">
             <div class="dettagli-content">
                 <h2 th:text="${piattaforma.nome}"></h2>
                 <p><strong>Descrizione:</strong> <span th:text="${piattaforma.descrizione}"></span></p>
