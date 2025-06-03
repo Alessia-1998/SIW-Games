@@ -48,7 +48,7 @@ public class VideogiocoController {
 		return "dettagliVideogioco.html";
 	}
 	
-	// PER AGGIUNGERE LIBRO A LISTA PREFERITI
+	// PER AGGIUNGERE VIDEOGIOCO A LISTA PREFERITI
 	@PostMapping("/videogiochi/{id}/preferiti")
 	public String gestisciPreferiti(@PathVariable("id") Long id, Principal principal, Model model) {
 
