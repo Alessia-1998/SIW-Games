@@ -18,9 +18,9 @@ INSERT INTO videogioco (id, titolo, anno, descrizione, genere, sviluppatore_id, 
 
 -- Associazione dei videogiochi alle piattaforme nella tabella "videogioco_piattaforma"
 INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (1, 2); -- The Last of Us su PlayStation 5
-INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (2, 1); -- Elden Ring su PC
+INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (2, 1); -- Elden Ring su Steam
 INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (2, 2); -- Elden Ring su PlayStation 5
-INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (3, 1); -- Cyberpunk 2077 su PC
+INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (3, 1); -- Cyberpunk 2077 su Steam
 
 insert into users(id, name, surname, email) values(1, 'alessia', 'alessia', 'alessia@gmail.com');
 insert into credentials(id, password, role, username, user_id) values(1, '$2a$10$oKs4yhhyDX4IKhMZKHsA1eygRwX/v1LrzlteENsoUeNjo43pquQlq', 'ADMIN', 'alessia',1);
