@@ -195,7 +195,7 @@ button:hover {
 }
 
 .login-container a:hover {
-    color: #ff7700; / Cambia colore al passaggio del mouse */
+    color: #ff7700; /* Cambia colore al passaggio del mouse */
     text-decoration: underline;
 }
 
