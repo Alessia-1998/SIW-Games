@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'SIW Games - ' + ${sviluppatore.nome}"></title>
+    <link rel="stylesheet" href="/stile.css">
+</head>
+<body>
+    <header>
+        <h1>🎮 SIW Games 🕹️</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/videogiochi">Lista Videogiochi</a></li>
+                <li><a href="/sviluppatori">Sviluppatori</a></li>
+                <li><a href="/piattaforme">Piattaforme</a></li>
+                <li><a href="/videogiochi/formSearchGiochi">Ricerca</a></li>
+                <li th:if="${userDetails}"><a href="/videogiochi/preferiti">Preferiti</a></li>
+                <li th:if="${userDetails}">
+                    <span th:text="${userDetails.username}"></span>
+                    <a href="/logout">Logout</a>
+                </li>
+                <li th:unless="${userDetails}">
+                    <a href="/login">Accedi</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="dettagli-container">
+            <img th:src="${sviluppatore.image != null ? sviluppatore.image : '/defaultcover.png'}" alt="Logo di ${sviluppatore.nome}">
+            <div class="dettagli-content">
+                <h2 th:text="${sviluppatore.nome}"></h2>
+                <p><strong>Sede:</strong> <span th:text="${sviluppatore.sede}"></span></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Sito per il corso di Sistemi Informativi sul Web</p>
+    </footer>
+</body>
+</html>
