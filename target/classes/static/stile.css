@@ -188,6 +188,17 @@ button:hover {
     display: block !important;
 }
 
+.login-container a {
+    color: #ffaa33; 
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.login-container a:hover {
+    color: #ff7700; /* Cambia colore al passaggio del mouse */
+    text-decoration: underline;
+}
+
 /* Pagina di dettaglio */
 .dettagli-container {
     display: flex;
@@ -214,6 +225,7 @@ button:hover {
 }
 
 .dettagli-content h2 {
+    text-align: center;
     color: #f5a623;
 }
 
