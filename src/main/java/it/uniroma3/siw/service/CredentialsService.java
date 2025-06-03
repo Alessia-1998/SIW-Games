@@ -48,5 +48,9 @@ public class CredentialsService {
 		
 
 	}
+	
+	public Optional<Credentials> findByUsername (String username ) {
+		return this.credentialsRepository.findByUsername(username);
+	}
 
 }

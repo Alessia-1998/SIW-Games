@@ -8,7 +8,7 @@ import it.uniroma3.siw.repository.SviluppatoreRepository;
 @Service
 public class SviluppatoreService {
 	
-	@Autowired SviluppatoreRepository sviluppatoreRepository;
+	@Autowired private SviluppatoreRepository sviluppatoreRepository;
 	
 	public Sviluppatore getSviluppatoreById(Long id) {
 		return sviluppatoreRepository.findById(id).get();

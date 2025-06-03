@@ -8,7 +8,7 @@ import it.uniroma3.siw.repository.PiattaformaRepository;
 @Service
 public class PiattaformaService {
 	
-	@Autowired PiattaformaRepository piattaformaRepository;
+	@Autowired private PiattaformaRepository piattaformaRepository;
 	
 	public Piattaforma getPiattaformaById(Long id) {
 		return piattaformaRepository.findById(id).get();
