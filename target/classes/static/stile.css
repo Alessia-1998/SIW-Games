@@ -12,6 +12,7 @@ header {
     background-color: #1f1f1f;
     padding: 20px;
     text-align: center;
+	border-bottom: 2px solid #ffaa33; /*barra separatrice */
 }
 
 h1 {
@@ -40,6 +41,11 @@ nav ul li a:hover {
     text-decoration: underline;
 }
 
+nav ul li span {
+    color: #ffaa33; /* Cambia colore del nome utente */
+    font-weight: bold;
+}
+
 /* Sezione principale */
 main {
     padding: 40px;
@@ -55,7 +61,7 @@ footer {
     background-color: #1f1f1f;
     text-align: center;
     padding: 15px;
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
 }
@@ -71,4 +77,113 @@ footer {
     max-width: 800px;
     border-radius: 50px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Liste */
+.lista-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+}
+
+.info-container {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.card {
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 300px; 
+    height: 400px; 
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+    flex-grow: 1;
+    font-size: 20px; 
+}
+
+.card h2 a {
+    color: #f5a623;
+    text-decoration: none;
+}
+
+.card h2 a:hover {
+    text-decoration: underline;
+    color: #ffaa33;
+}
+
+.card p {
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.card:hover {
+    transform: scale(1.05); /* Effetto "zoom" leggero ai riquadri! */
+    transition: 0.3s ease-in-out;
+}
+
+/* Tre colonne in una linea */
+@media (min-width: 900px) {
+	.lista-container {
+		justify-content: center; /* Posiziona le card al centro */
+		gap: 10px; /* Riduce la distanza tra i riquadri */
+	}
+}
+
+
+/* Login */ 
+.login-container {
+    text-align: center;
+    margin: 40px auto;
+    width: 300px;
+    background-color: #1f1f1f;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.login-container input {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    padding: 8px;
+    background-color: #ffffff;
+    color: #121212;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+    background-color: #f5a623;
+    border: none;
+    cursor: pointer;
+	margin-top: 20px;
+}
+
+button:hover {
+    background-color: #ffaa33;
+}
+
+.error-message {
+    color: rgb(255, 128, 128);
+    font-weight: bold;
+    display: block !important;
 }

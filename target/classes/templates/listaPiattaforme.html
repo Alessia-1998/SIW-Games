@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIW Games - Lista Piattaforme</title>
+    <link rel="stylesheet" href="stile.css">
+</head>
+<body>
+    <header>
+        <h1>🎮 SIW Games 🕹️ </h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/videogiochi">Lista Videogiochi</a></li>
+                <li><a href="/sviluppatori">Sviluppatori</a></li>
+                <li><a href="/piattaforme">Piattaforme</a></li>
+                <li><a href="/videogiochi/formSearchGiochi">Ricerca</a></li>
+                <li th:if="${userDetails}"><a href="/videogiochi/preferiti">Preferiti</a></li>
+                <li th:if="${userDetails}">
+                    <span th:text="${userDetails.username}"></span>
+                    <a href="/logout">Logout</a>
+                </li>
+                <li th:unless="${userDetails}">
+                    <a href="/login">Accedi</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="info-container">
+            <h2>Elenco Piattaforme</h2>
+            <p>Numero totale: <span th:text="${totalPiattaforme}"></span></p>
+        </section>
+
+        <section class="lista-container">
+            <div th:each="piattaforma : ${piattaforme}" class="card">
+                <img th:src="${piattaforma.image}" alt="Logo di ${piattaforma.nome}">
+                <div class="card-content">
+                    <h2><a th:href="@{/piattaforme/{id}(id=${piattaforma.id})}" th:text="${piattaforma.nome}"></a></h2>
+                    <p th:text="${piattaforma.produttore}"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Sito per il corso di Sistemi Informativi sul Web</p>
+    </footer>
+</body>
+</html>

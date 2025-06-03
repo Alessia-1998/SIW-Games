@@ -53,7 +53,7 @@ public class AuthConfiguration {
 		// .requestMatchers("/**").permitAll() // chiunque (autenticato o no) può accedere alle pagine index, login, register, ai css e alle immagini
 		.requestMatchers(HttpMethod.GET,"/","/index","/register","/stile.css/**", "/videogiochi.jpg", "/images/**", "defaultcover.png").permitAll() 
 		// CHIUNQUE (AUTENTICATO O NO) PUO' ACCEDERE ALL'ELENCO DEI GIOCHI, SVILUPPATORI E PIATTAFORME, CON I LORO DETTAGLI 
-		.requestMatchers(HttpMethod.GET, "/videogiochi/**" , "/sviluppatori/**", "/videogiochi/formSearchGiochi/**" ).permitAll()
+		.requestMatchers(HttpMethod.GET, "/videogiochi/**" , "/sviluppatori/**", "/piattaforme/**", "/videogiochi/formSearchGiochi/**" ).permitAll()
 		// CHIUNQUE (AUTENTICATO O NO) PUO' ACCEDERE ALL'ELENCO DEI GIOCHI CERCATI
 		.requestMatchers(HttpMethod.POST, "/videogiochi/searchTitolo/**", "/videogiochi/searchAnno/**").permitAll()
 

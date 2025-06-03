@@ -24,6 +24,8 @@ public class Piattaforma {
 	private String descrizione;
 	
 	private LocalDate dataDiRilascio;
+	
+	private String produttore;
 
 	private String image; // percorso immagine
 	
@@ -80,9 +82,17 @@ public class Piattaforma {
 	public void setVideogiochi(List<Videogioco> videogiochi) {
 		this.videogiochi = videogiochi;
 	}
+		
+	public String getProduttore() {
+		return produttore;
+	}
+
+	public void setProduttore(String produttore) {
+		this.produttore = produttore;
+	}
 	
 	// Equals e hashCode
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(nome);
