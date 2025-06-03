@@ -222,3 +222,10 @@ button:hover {
     font-size: 16px;
     margin: 10px 0;
 }
+
+.lista-piattaforme {
+    display: inline-block;
+    flex-wrap: wrap;
+    gap: 10px;
+	text-align: center;
+}
