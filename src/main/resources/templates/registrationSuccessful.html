@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login - SIW Games</title>
+	<link rel="stylesheet" href="stile.css">
+</head>
+
+<body>
+	<header>
+		<h1>🎮 SIW Games 🕹️ </h1>
+		<nav>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/videogiochi">Lista Videogiochi</a></li>
+				<li><a href="/sviluppatori">Sviluppatori</a></li>
+				<li><a href="/piattaforme">Piattaforme</a></li>
+				<li><a href="/videogiochi/formSearchGiochi">Ricerca</a></li>
+				<li th:if="${userDetails}"><a href="/videogiochi/preferiti">Preferiti</a></li>
+				<!-- Controllo autenticazione -->
+				<li th:if="${userDetails}">
+					<span th:text="${userDetails.username}"></span>
+					<a href="/logout">Logout</a>
+				</li>
+				<li th:unless="${userDetails}">
+					<a href="/login">Accedi</a>
+				</li>
+			</ul>
+		</nav>
+	</header>
+
+	<main>
+		<section class="login-container">
+			<h2>✅ Registrazione completata!</h2>
+			<p>Grazie per esserti registrato/a!<br> Ora puoi accedere al tuo account.</p>
+			<div>
+				<span><b>Nome: </b></span>
+				<span th:text="${user.name}"></span>
+			</div>
+			<div>
+				<span><b>Cognome: </b></span>
+				<span th:text="${user.surname}"></span>
+			</div>
+			<div>
+				<span><b>Email: </b></span>
+				<span th:text="${user.email}"></span>
+			</div>
+			<p>Finito? <a href="@{/login}">Vai al login</a></p>
+		</section>
+	</main>
+
+	<footer>
+		<p>Sito per il corso di Sistemi Informativi sul Web</p>
+	</footer>
+</body>
+
+</html>
