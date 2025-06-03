@@ -70,7 +70,7 @@ public class VideogiocoController {
 	}
 
 	// LISTA DEI PREFERITI
-	@GetMapping("/preferiti")
+	@GetMapping("videogiochi/preferiti")
 	public String mostraListaPreferiti(Model model, Principal principal) {
 		// Se l'utente NON è autenticato, saltiamo la parte di "credentials"
 		Credentials credentials = (principal != null) ? credentialsService.findByUsername(principal.getName()).orElse(null) : null ;
