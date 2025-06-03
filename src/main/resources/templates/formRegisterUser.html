@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login - SIW Games</title>
+	<link rel="stylesheet" href="stile.css">
+</head>
+
+<body>
+	<header>
+		<h1>🎮 SIW Games 🕹️ </h1>
+		<nav>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/videogiochi">Lista Videogiochi</a></li>
+				<li><a href="/sviluppatori">Sviluppatori</a></li>
+				<li><a href="/piattaforme">Piattaforme</a></li>
+				<li><a href="/videogiochi/formSearchGiochi">Ricerca</a></li>
+				<li th:if="${userDetails}"><a href="/videogiochi/preferiti">Preferiti</a></li>
+				<!-- Controllo autenticazione -->
+				<li th:if="${userDetails}">
+					<span th:text="${userDetails.username}"></span>
+					<a href="/logout">Logout</a>
+				</li>
+				<li th:unless="${userDetails}">
+					<a href="/login">Accedi</a>
+				</li>
+			</ul>
+		</nav>
+	</header>
+
+	<main>
+		<section class="login-container">
+			<h2>Registrazione nuovo utente</h2>
+
+			<form th:action="@{/register}" method="POST">
+				<label>Nome</label>
+				<input type="text" placeholder="Nome" required th:field="${user.name}" />
+				<span th:if="${#fields.hasErrors('user.name')}" th:errors="${user.name}" th:style="'color:red'"></span>
+
+				<label>Cognome</label>
+				<input type="text" placeholder="Cognome" required th:field="${user.surname}" />
+				<span th:if="${#fields.hasErrors('user.surname')}" th:errors="${user.surname}"
+					th:style="'color:red'"></span>
+
+				<label>Email</label>
+				<input type="text" placeholder="Email" required th:field="${user.email}" />
+				<span th:if="${#fields.hasErrors('user.email')}" th:errors="${user.email}"
+					th:style="'color:red'"></span>
+
+				<label>Username</label>
+				<input type="text" placeholder="Username" required th:field="${credentials.username}" />
+				<span th:if="${#fields.hasErrors('credentials.username')}" th:errors="${credentials.username}"
+					th:style="'color:red'"></span>
+
+				<label>Password</label>
+				<input type="password" placeholder="Password" required th:field="${credentials.password}" />
+				<span th:if="${#fields.hasErrors('credentials.password')}" th:errors="${credentials.password}"
+					th:style="'color:red'"></span>
+
+				<button type="submit">Registrati</button>
+			</form>
+			<p>Hai già un account? <a th:href="@{/login}">Accedi qui</a></p>
+		</section>
+	</main>
+
+	<footer>
+		<p>Sito per il corso di Sistemi Informativi sul Web</p>
+	</footer>
+</body>
+
+</html>
