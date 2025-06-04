@@ -82,4 +82,24 @@ public class VideogiocoController {
 		return "preferiti";
 	}
 
+    // RICERCA DEI VIDEOGIOCHI IN BASE AL TITOLO O ALL'ANNO DI USCITA
+    @PostMapping("/search")
+    public String cercaVideogiochi(@RequestParam(required = false) String titolo, @RequestParam(required = false) Integer anno, Model model) {
+        List<Videogioco> videogiochi;
+        if (titolo != null) {
+            videogiochi = videogiocoService.cercaPerTitolo(titolo);
+        } else if (anno != null) {
+            videogiochi = videogiocoService.cercaPerAnno(anno);
+        }
+        model.addAttribute("videogiochi", videogiochi);
+        return "giochiTrovati";
+    }
+
+    // FORM PER LA RICERCA DEI VIDEOGIOCHI 
+    @GetMapping("/formSearchGiochi")
+    public String formSearchGiochi() {
+        return "formSearchGiochi.html";
+    }
+
+
 }
