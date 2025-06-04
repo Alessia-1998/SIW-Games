@@ -26,4 +26,12 @@ public class VideogiocoService {
 	public long countVideogiochi() {
 		return this.videogiocoRepository.count();
 	}
+
+	public List<Videogioco> cercaPerTitolo(String titolo) {
+                return videogiocoRepository.findByTitoloContainingIgnoreCase(titolo);
+        }
+
+        public List<Videogioco> cercaPerAnno(int anno) {
+                return videogiocoRepository.findByAnno(anno);
+        }
 }
