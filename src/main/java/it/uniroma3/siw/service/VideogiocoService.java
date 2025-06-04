@@ -1,5 +1,7 @@
 package it.uniroma3.siw.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +30,10 @@ public class VideogiocoService {
 	}
 
 	public List<Videogioco> cercaPerTitolo(String titolo) {
-                return videogiocoRepository.findByTitoloContainingIgnoreCase(titolo);
-        }
+		return videogiocoRepository.findByTitoloContainingIgnoreCase(titolo);
+	}
 
-        public List<Videogioco> cercaPerAnno(int anno) {
-                return videogiocoRepository.findByAnno(anno);
-        }
+	public List<Videogioco> cercaPerAnno(Integer anno) {
+		return videogiocoRepository.findByAnno(anno);
+	}
 }

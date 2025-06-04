@@ -241,3 +241,16 @@ button:hover {
     gap: 10px;
 	text-align: center;
 }
+
+/* Per link */
+a {
+    color: #ffaa33; /* Arancione */
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ff7700; /* Tonalità più scura al passaggio del mouse */
+    text-decoration: underline;
+}
+

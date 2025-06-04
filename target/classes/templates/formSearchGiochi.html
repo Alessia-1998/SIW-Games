@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIW Games - Ricerca Videogiochi</title>
+    <link rel="stylesheet" href="/stile.css">
+</head>
+<body>
+    <header>
+        <h1>🎮 SIW Games 🕹️</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/videogiochi">Lista Videogiochi</a></li>
+                <li><a href="/sviluppatori">Sviluppatori</a></li>
+                <li><a href="/piattaforme">Piattaforme</a></li>
+                <li><a href="/videogiochi/formSearchGiochi">Ricerca</a></li>
+                <li th:if="${userDetails}"><a href="/videogiochi/preferiti">Preferiti</a></li>
+                <li th:if="${userDetails}">
+                    <span th:text="${userDetails.username}"></span>
+                    <a href="/logout">Logout</a>
+                </li>
+                <li th:unless="${userDetails}">
+                    <a href="/login">Accedi</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+	<main>
+		<section class="login-container"> <!-- Riutilizziamo lo stile del login -->
+			<h2>🔍 Cerca un videogioco</h2>
+			<form th:action="@{/videogiochi/search}" method="post">
+				<input type="text" th:text="${titolo}" name="titolo" placeholder="Inserisci titolo...">
+				<input type="text" th:value="${anno}" name="anno" placeholder="Inserisci anno...">
+				<button type="submit">Cerca</button>
+			</form>
+		</section>
+	</main>
+
+    <footer>
+        <p>Sito per il corso di Sistemi Informativi sul Web</p>
+    </footer>
+</body>
+</html>

@@ -1,6 +1,8 @@
 package it.uniroma3.siw.controller;
 
 import java.security.Principal;
+import java.util.Collections;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
@@ -83,9 +86,9 @@ public class VideogiocoController {
 	}
 
     // RICERCA DEI VIDEOGIOCHI IN BASE AL TITOLO O ALL'ANNO DI USCITA
-    @PostMapping("/search")
+    @PostMapping("videogiochi/search")
     public String cercaVideogiochi(@RequestParam(required = false) String titolo, @RequestParam(required = false) Integer anno, Model model) {
-        List<Videogioco> videogiochi;
+        List<Videogioco> videogiochi = Collections.emptyList() ;
         if (titolo != null) {
             videogiochi = videogiocoService.cercaPerTitolo(titolo);
         } else if (anno != null) {
@@ -96,7 +99,7 @@ public class VideogiocoController {
     }
 
     // FORM PER LA RICERCA DEI VIDEOGIOCHI 
-    @GetMapping("/formSearchGiochi")
+    @GetMapping("videogiochi/formSearchGiochi")
     public String formSearchGiochi() {
         return "formSearchGiochi.html";
     }
