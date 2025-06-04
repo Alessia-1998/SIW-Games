@@ -55,7 +55,7 @@ public class AuthConfiguration {
 		// CHIUNQUE (AUTENTICATO O NO) PUO' ACCEDERE ALL'ELENCO DEI GIOCHI, SVILUPPATORI E PIATTAFORME, CON I LORO DETTAGLI 
 		.requestMatchers(HttpMethod.GET, "/videogiochi/**" , "/sviluppatori/**", "/piattaforme/**", "/videogiochi/formSearchGiochi/**" ).permitAll()
 		// CHIUNQUE (AUTENTICATO O NO) PUO' ACCEDERE ALL'ELENCO DEI GIOCHI CERCATI
-		.requestMatchers(HttpMethod.POST, "/videogiochi/searchTitolo/**", "/videogiochi/searchAnno/**").permitAll()
+		.requestMatchers(HttpMethod.POST, "/videogiochi/search/**").permitAll()
 
 		// chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register
 		.requestMatchers(HttpMethod.POST,"/register", "/login").permitAll()
