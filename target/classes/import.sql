@@ -24,18 +24,18 @@ INSERT INTO videogioco (id, titolo, anno, descrizione, genere, sviluppatore_id, 
 INSERT INTO videogioco (id, titolo, anno, descrizione, genere, sviluppatore_id, image) VALUES (6, 'The Legend of Zelda: Breath of the Wild', 2017, 'Avventura open-world', 'Avventura', 6, '/images/zelda_botw.jpg');
 
 
--- Associazione dei videogiochi alle piattaforme nella tabella "videogioco_piattaforma"
-INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (1, 2); -- The Last of Us su PlayStation 5
-INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (2, 1); -- Elden Ring su Steam
-INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (2, 2); -- Elden Ring su PlayStation 5
-INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (3, 1); -- Cyberpunk 2077 su Steam
-INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (4, 2); -- Persona 5 Royal su PlayStation 5
-INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (4, 4); -- Persona 5 Royal su Xbox Series X
-INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (4, 3); -- Persona 5 Royal su Nintendo Switch
-INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (4, 1); -- Persona 5 Royal su Steam
-INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (4, 5); -- Persona 5 Royal su PlayStation 4
-INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (5, 5); -- Everybody's Golf su PlayStation 4
-INSERT INTO piattaforma_videogiochi (videogiochi_id, piattaforme_id) VALUES (6, 3); -- Zelda BOTW su Nintendo Switch
+-- Associazione dei videogiochi alle piattaforme nella tabella "vvideogioco_piattaforme"
+INSERT INTO videogioco_piattaforme (videogiochi_id, piattaforme_id) VALUES (1, 2); -- The Last of Us su PlayStation 5
+INSERT INTO videogioco_piattaforme (videogiochi_id, piattaforme_id) VALUES (2, 1); -- Elden Ring su Steam
+INSERT INTO videogioco_piattaforme (videogiochi_id, piattaforme_id) VALUES (2, 2); -- Elden Ring su PlayStation 5
+INSERT INTO videogioco_piattaforme (videogiochi_id, piattaforme_id) VALUES (3, 1); -- Cyberpunk 2077 su Steam
+INSERT INTO videogioco_piattaforme (videogiochi_id, piattaforme_id) VALUES (4, 2); -- Persona 5 Royal su PlayStation 5
+INSERT INTO videogioco_piattaforme (videogiochi_id, piattaforme_id) VALUES (4, 4); -- Persona 5 Royal su Xbox Series X
+INSERT INTO videogioco_piattaforme (videogiochi_id, piattaforme_id) VALUES (4, 3); -- Persona 5 Royal su Nintendo Switch
+INSERT INTO videogioco_piattaforme (videogiochi_id, piattaforme_id) VALUES (4, 1); -- Persona 5 Royal su Steam
+INSERT INTO videogioco_piattaforme (videogiochi_id, piattaforme_id) VALUES (4, 5); -- Persona 5 Royal su PlayStation 4
+INSERT INTO videogioco_piattaforme (videogiochi_id, piattaforme_id) VALUES (5, 5); -- Everybody's Golf su PlayStation 4
+INSERT INTO videogioco_piattaforme (videogiochi_id, piattaforme_id) VALUES (6, 3); -- Zelda BOTW su Nintendo Switch
 
 insert into users(id, name, surname, email) values(1, 'alessia', 'alessia', 'alessia@gmail.com');
 insert into credentials(id, password, role, username, user_id) values(1, '$2a$10$oKs4yhhyDX4IKhMZKHsA1eygRwX/v1LrzlteENsoUeNjo43pquQlq', 'ADMIN', 'alessia',1);

@@ -151,8 +151,8 @@ public class VideogiocoController {
     
  
     // ASSOCIO UNA PIATTAFORMA AL VIDEOGIOCO
-    @PostMapping("/admin/{videogiocoId}/rimuoviPiattaforma/{piattaformaId}")
-	public String rimuoviPiattaforma(@PathVariable("videogiocoId") Long videogiocoId, @PathVariable("piattaformaId") Long piattaformaId) {
+    @PostMapping("/admin/{videogiocoId}/aggiungiPiattaforma/{piattaformaId}")
+	public String aggiungiPiattaforma(@PathVariable("videogiocoId") Long videogiocoId, @PathVariable("piattaformaId") Long piattaformaId) {
 		Videogioco videogioco = videogiocoService.getVideogiocoById(videogiocoId);
 		Piattaforma piattaforma = piattaformaService.getPiattaformaById(piattaformaId);
 		if (!videogioco.getPiattaforme().contains(piattaforma)) {
@@ -164,8 +164,8 @@ public class VideogiocoController {
 	
 
     // DISSOCIO UNA PIATTAFORMA DAL VIDEOGIOCO
-	@PostMapping("/admin/{videogiocoId}/aggiungiPiattaforma/{piattaformaId}")
-	public String aggiungiPiattaforma(@PathVariable("videogiocoId") Long videogiocoId, @PathVariable("piattaformaId") Long piattaformaId) {
+	@PostMapping("/admin/{videogiocoId}/rimuoviPiattaforma/{piattaformaId}")
+	public String rimuoviPiattaforma(@PathVariable("videogiocoId") Long videogiocoId, @PathVariable("piattaformaId") Long piattaformaId) {
 		Videogioco videogioco = videogiocoService.getVideogiocoById(videogiocoId);
 		Piattaforma piattaforma = piattaformaService.getPiattaformaById(piattaformaId);
 		if (videogioco.getPiattaforme().contains(piattaforma)) {

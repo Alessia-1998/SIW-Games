@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,7 +30,7 @@ public class Piattaforma {
 
 	private String image; // percorso immagine
 	
-	@ManyToMany
+	@ManyToMany (mappedBy = "piattaforme", cascade = CascadeType.ALL)
 	private List<Videogioco> videogiochi;
 	
 	
