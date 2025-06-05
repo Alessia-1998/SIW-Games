@@ -155,8 +155,8 @@ public class VideogiocoController {
 	public String rimuoviPiattaforma(@PathVariable("videogiocoId") Long videogiocoId, @PathVariable("piattaformaId") Long piattaformaId) {
 		Videogioco videogioco = videogiocoService.getVideogiocoById(videogiocoId);
 		Piattaforma piattaforma = piattaformaService.getPiattaformaById(piattaformaId);
-		if (videogioco.getPiattaforme().contains(piattaforma)) {
-		    videogioco.getPiattaforme().remove(piattaforma);
+		if (!videogioco.getPiattaforme().contains(piattaforma)) {
+		    videogioco.getPiattaforme().add(piattaforma);
 		    this.videogiocoService.save(videogioco);
 		}
 		return "redirect:/admin/modificaVideogioco/" + videogiocoId;
@@ -168,16 +168,16 @@ public class VideogiocoController {
 	public String aggiungiPiattaforma(@PathVariable("videogiocoId") Long videogiocoId, @PathVariable("piattaformaId") Long piattaformaId) {
 		Videogioco videogioco = videogiocoService.getVideogiocoById(videogiocoId);
 		Piattaforma piattaforma = piattaformaService.getPiattaformaById(piattaformaId);
-		if (!videogioco.getPiattaforme().contains(piattaforma)) {
-		    videogioco.getPiattaforme().add(piattaforma);
+		if (videogioco.getPiattaforme().contains(piattaforma)) {
+		    videogioco.getPiattaforme().remove(piattaforma);
 		   this.videogiocoService.save(videogioco);
 		}
 		return "redirect:/admin/modificaVideogioco/" + videogiocoId;
 	}
 	
 	// POSSO IMPOSTARE SOLO UNO SVILUPPATORE ALLA VOLTA 
-	@PostMapping("/admin/{videogiocoId}/modificaSviluppatore/{sviluppatoreId}")
-	public String modificaSviluppatore(@PathVariable("videogiocoId") Long videogiocoId, @PathVariable("sviluppatoreId") Long sviluppatoreId) {
+	@PostMapping("/admin/{videogiocoId}/modificaSviluppatore")
+	public String modificaSviluppatore(@PathVariable("videogiocoId") Long videogiocoId, @RequestParam Long sviluppatoreId) {
 	    Videogioco videogioco = videogiocoService.getVideogiocoById(videogiocoId);
 	    Sviluppatore sviluppatore = sviluppatoreService.getSviluppatoreById(sviluppatoreId);
 	    if (videogioco != null && sviluppatore != null) {
