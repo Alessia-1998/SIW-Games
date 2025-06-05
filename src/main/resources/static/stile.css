@@ -107,7 +107,7 @@ footer {
     border-radius: 10px;
     overflow: hidden;
     width: 300px; 
-    height: 400px; 
+    height: auto; /*400px; */ 
     text-align: center;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
     display: flex;

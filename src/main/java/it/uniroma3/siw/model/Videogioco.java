@@ -3,7 +3,6 @@ package it.uniroma3.siw.model;
 import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,8 +35,7 @@ public class Videogioco {
 	
 	private String genere;
 	
-	// Se elimino un videgioco, tolgo SOLO l'associazione con le piattaforme
-	@ManyToMany (mappedBy = "videogiochi", cascade = CascadeType.REMOVE)
+	@ManyToMany (mappedBy = "videogiochi")
 	private List<Piattaforma> piattaforme;
 	
 	@ManyToOne

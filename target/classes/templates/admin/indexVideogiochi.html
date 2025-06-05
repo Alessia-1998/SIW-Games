@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIW Games - Gestione Videogiochi</title>
+    <link rel="stylesheet" href="/stile.css">
+</head>
+<body>
+    <header>
+        <h1>🎮 SIW Games 🕹️</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/videogiochi">Lista Videogiochi</a></li>
+                <li><a href="/sviluppatori">Sviluppatori</a></li>
+                <li><a href="/piattaforme">Piattaforme</a></li>
+                <li><a href="/videogiochi/formSearchGiochi">Ricerca</a></li>
+                <li th:if="${userDetails}"><a href="/videogiochi/preferiti">Preferiti</a></li>
+                <li th:if="${userDetails}">
+                    <span th:text="${userDetails.username}"></span>
+                    <a href="/logout">Logout</a>
+                </li>
+                <li th:unless="${userDetails}">
+                    <a href="/login">Accedi</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="info-container">
+            <h2>Gestione Videogiochi</h2>
+            <p>Numero totale: <span th:text="${totalVideogiochi}"></span></p>
+        </section>
+
+        <section class="lista-container">
+            <div th:each="videogioco : ${videogiochi}" class="card">
+                <img th:src="${videogioco.image}" alt="Immagine di ${videogioco.titolo}">
+                <div class="card-content">
+                    <h2><a th:href="@{/videogiochi/{id}(id=${videogioco.id})}" th:text="${videogioco.titolo}"></a></h2>
+                    <p th:text="${videogioco.sviluppatore.nome}"></p>
+                    <form th:action="@{/admin/modificaVideogioco/{id}(id=${videogioco.id})}" method="get">
+                        <button type="submit">✏️ Modifica</button>
+                    </form>
+                    <form th:action="@{/admin/eliminaVideogioco/{id}(id=${videogioco.id})}" method="post">
+                        <button type="submit">🗑️ Elimina</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Sito per il corso di Sistemi Informativi sul Web - Admin Area</p>
+    </footer>
+</body>
+</html>

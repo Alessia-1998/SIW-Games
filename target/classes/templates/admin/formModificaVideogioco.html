@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title th:text="'SIW Games - Modifica ' + ${videogioco.titolo}"></title>
+	<link rel="stylesheet" href="/stile.css">
+</head>
+
+<body>
+
+	<header>
+		<h1>🎮 SIW Games 🕹️</h1>
+		<nav>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/videogiochi">Lista Videogiochi</a></li>
+				<li><a href="/sviluppatori">Sviluppatori</a></li>
+				<li><a href="/piattaforme">Piattaforme</a></li>
+				<li><a href="/videogiochi/formSearchGiochi">Ricerca</a></li>
+				<li th:if="${userDetails}"><a href="/videogiochi/preferiti">Preferiti</a></li>
+				<li th:if="${userDetails}">
+					<span th:text="${userDetails.username}"></span>
+					<a href="/logout">Logout</a>
+				</li>
+				<li th:unless="${userDetails}">
+					<a href="/login">Accedi</a>
+				</li>
+			</ul>
+		</nav>
+	</header>
+
+	<main>
+		<section class="dettagli-container">
+			<img th:src="${videogioco.image != null ? videogioco.image : '/defaultcover.png'}"
+				alt="Copertina di ${videogioco.titolo}">
+			<div class="dettagli-content">
+				<h2 th:text="${videogioco.titolo}"></h2>
+				<p><strong>Anno di uscita:</strong> <span th:text="${videogioco.anno}"></span></p>
+				<p><strong>Genere:</strong> <span th:text="${videogioco.genere}"></span></p>
+				<p><strong>Descrizione:</strong> <span th:text="${videogioco.descrizione}"></span></p>
+
+				<!-- Modifica sviluppatore -->
+				<h3>Modifica Sviluppatore</h3>
+				<form th:action="@{/admin/{videogiocoId}/modificaSviluppatore(videogiocoId=${videogioco.id}, sviluppatoreId=${sviluppatoreId})}"
+					method="post">
+					<select name="sviluppatoreId">
+						<option th:each="sviluppatore : ${sviluppatoriDisponibili}" th:value="${sviluppatore.id}"
+							th:text="${sviluppatore.nome}"
+							th:selected="${sviluppatore.id == videogioco.sviluppatore.id}">
+						</option>
+					</select>
+					<button type="submit">🔄 Cambia</button>
+				</form>
+
+				<!-- Gestione piattaforme -->
+				<h3>Piattaforme associate</h3>
+				<ul>
+					<li th:each="piattaforma : ${videogioco.piattaforme}">
+						<span th:text="${piattaforma.nome}"></span>
+						<form th:action="@{/admin/{videogiocoId}/rimuoviPiattaforma/{piattaformaId}(videogiocoId=${videogioco.id}, piattaformaId=${piattaforma.id})}"
+							method="post">
+							<button type="submit">❌ Rimuovi</button>
+						</form>
+					</li>
+				</ul>
+
+				<h3>Aggiungi una Piattaforma</h3>
+				<ul>
+					<li th:each="piattaforma : ${piattaformeDisponibili}">
+						<span th:text="${piattaforma.nome}"></span>
+						<form th:action="@{/admin/{videogiocoId}/aggiungiPiattaforma/{piattaformaId}(videogiocoId=${videogioco.id}, piattaformaId=${piattaforma.id})}"
+							method="post">
+							<button type="submit">✅ Aggiungi</button>
+						</form>
+					</li>
+				</ul>
+			</div>
+		</section>
+	</main>
+
+	<footer>
+		<p>Sito per il corso di Sistemi Informativi sul Web - Modifica Videogioco</p>
+	</footer>
+
+</body>
+
+</html>

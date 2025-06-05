@@ -22,7 +22,7 @@ public class VideogiocoService {
 	}
 	
 	public void save(Videogioco videogioco) {
-		videogiocoRepository.save(videogioco);
+		this.videogiocoRepository.save(videogioco);
 	}
 
 	public long countVideogiochi() {
@@ -35,5 +35,9 @@ public class VideogiocoService {
 
 	public List<Videogioco> cercaPerAnno(Integer anno) {
 		return videogiocoRepository.findByAnno(anno);
+	}
+
+	public void delete(Videogioco videogioco) {
+		this.videogiocoRepository.delete(videogioco);
 	}
 }

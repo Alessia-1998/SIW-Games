@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,10 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.siw.model.Credentials;
+import it.uniroma3.siw.model.Piattaforma;
+import it.uniroma3.siw.model.Sviluppatore;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.model.Videogioco;
 import it.uniroma3.siw.repository.UserRepository;
 import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.PiattaformaService;
+import it.uniroma3.siw.service.SviluppatoreService;
 import it.uniroma3.siw.service.VideogiocoService;
 
 @Controller
@@ -25,6 +30,8 @@ public class VideogiocoController {
 	@Autowired private VideogiocoService videogiocoService;
 	@Autowired private CredentialsService credentialsService;
 	@Autowired private UserRepository userRepository;
+	@Autowired private PiattaformaService piattaformaService;
+	@Autowired private SviluppatoreService sviluppatoreService;
 	
 	// LISTA DEI VIDEOGIOCHI
 	@GetMapping("/videogiochi")
@@ -103,6 +110,84 @@ public class VideogiocoController {
     public String formSearchGiochi() {
         return "formSearchGiochi.html";
     }
+    
+    
+    /* ADMIN */
+    
+    // MOSTRA LA LISTA DEI VIDEOGIOCHI CON I PULSANTI "MODIFICA" E "ELIMINA"
+    @GetMapping("/admin/gestisciVideogiochi")
+    public String mostraIndexLibri(Model model) {
+    	List<Videogioco> videogiochi = (List<Videogioco>) videogiocoService.getAllVideogiochi(); // Prendo tutti i videogiochi
+    	model.addAttribute("videogiochi", videogiochi );
+    	model.addAttribute("totalVideogiochi", videogiocoService.countVideogiochi()); // Prendo il totale
+    	return "admin/indexVideogiochi"; //  Ritorno la lista dei videogiochi da modificare
+    }
+    
+    // ELIMINA VIDEOGIOCO
+    @PostMapping("/admin/eliminaVideogioco/{id}") 
+    	public String eliminaVideogioco(@PathVariable("id") Long id) {
+    	    Videogioco videogioco = videogiocoService.getVideogiocoById(id);
+    	    if (videogioco != null) {
+    	        videogiocoService.delete(videogioco); //  Elimina il videogioco dal database
+    	    }
+    	    return "redirect:/admin/gestisciVideogiochi"; // Torna alla lista dopo l'eliminazione
+    	}
+    
+    // MODIFICA GIOCO PER AGGIUNGERE/ELIMINARE PIATTAFORME E UN SOLO SVILUPPATORE
+    @GetMapping("/admin/modificaVideogioco/{id}")
+    public String modificaVideogioco(@PathVariable("id") Long id,  Model model) {
+	    Videogioco videogioco = videogiocoService.getVideogiocoById(id);
+    	if (videogioco == null) return "redirect:/videogiochi";
+
+    	List<Piattaforma> piattaformeDisponibili =(List<Piattaforma>) piattaformaService.getAllPiattaforme();
+    	piattaformeDisponibili.removeAll(videogioco.getPiattaforme()); // Rimuovo le piattaforme già associate al videogioco
+    	List<Sviluppatore> sviluppatoriDisponibili =(List<Sviluppatore>) sviluppatoreService.getAllSviluppatori();
+    	
+    	model.addAttribute("videogioco", videogioco);  // Passo il videogioco alla vista
+    	model.addAttribute("piattaformeDisponibili", piattaformeDisponibili); // Passo le piattaforme disponibili alla vista
+    	model.addAttribute("sviluppatoriDisponibili", sviluppatoriDisponibili); // Passo gli sviluppatori disponibili alla vista
+    	return "admin/formModificaVideogioco.html";
+    }
+    
+ 
+    // ASSOCIO UNA PIATTAFORMA AL VIDEOGIOCO
+    @PostMapping("/admin/{videogiocoId}/rimuoviPiattaforma/{piattaformaId}")
+	public String rimuoviPiattaforma(@PathVariable("videogiocoId") Long videogiocoId, @PathVariable("piattaformaId") Long piattaformaId) {
+		Videogioco videogioco = videogiocoService.getVideogiocoById(videogiocoId);
+		Piattaforma piattaforma = piattaformaService.getPiattaformaById(piattaformaId);
+		if (videogioco.getPiattaforme().contains(piattaforma)) {
+		    videogioco.getPiattaforme().remove(piattaforma);
+		    this.videogiocoService.save(videogioco);
+		}
+		return "redirect:/admin/modificaVideogioco/" + videogiocoId;
+	}
+	
+
+    // DISSOCIO UNA PIATTAFORMA DAL VIDEOGIOCO
+	@PostMapping("/admin/{videogiocoId}/aggiungiPiattaforma/{piattaformaId}")
+	public String aggiungiPiattaforma(@PathVariable("videogiocoId") Long videogiocoId, @PathVariable("piattaformaId") Long piattaformaId) {
+		Videogioco videogioco = videogiocoService.getVideogiocoById(videogiocoId);
+		Piattaforma piattaforma = piattaformaService.getPiattaformaById(piattaformaId);
+		if (!videogioco.getPiattaforme().contains(piattaforma)) {
+		    videogioco.getPiattaforme().add(piattaforma);
+		   this.videogiocoService.save(videogioco);
+		}
+		return "redirect:/admin/modificaVideogioco/" + videogiocoId;
+	}
+	
+	// POSSO IMPOSTARE SOLO UNO SVILUPPATORE ALLA VOLTA 
+	@PostMapping("/admin/{videogiocoId}/modificaSviluppatore/{sviluppatoreId}")
+	public String modificaSviluppatore(@PathVariable("videogiocoId") Long videogiocoId, @PathVariable("sviluppatoreId") Long sviluppatoreId) {
+	    Videogioco videogioco = videogiocoService.getVideogiocoById(videogiocoId);
+	    Sviluppatore sviluppatore = sviluppatoreService.getSviluppatoreById(sviluppatoreId);
+	    if (videogioco != null && sviluppatore != null) {
+	        videogioco.setSviluppatore(sviluppatore); 
+	        videogiocoService.save(videogioco);
+	    }
+	    return "redirect:/admin/modificaVideogioco/" + videogiocoId;
+	}
+
+    
 
 
 }
