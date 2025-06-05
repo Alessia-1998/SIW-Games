@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SIW Games - Admin</title>
+	<link rel="stylesheet" href="stile.css">
+</head>
+
+<body>
+	<header>
+		<h1>🎮 SIW Games 🕹️</h1>
+		<nav>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/videogiochi">Lista Videogiochi</a></li>
+				<li><a href="/sviluppatori">Sviluppatori</a></li>
+				<li><a href="/piattaforme">Piattaforme</a></li>
+				<li><a href="/videogiochi/formSearchGiochi">Ricerca</a></li>
+				<li th:if="${userDetails}"><a href="/videogiochi/preferiti">Preferiti</a></li>
+				<li th:if="${userDetails}">
+					<span th:text="${userDetails.username}"></span>
+					<a href="/logout">Logout</a>
+				</li>
+				<li th:unless="${userDetails}">
+					<a href="/login">Accedi</a>
+				</li>
+			</ul>
+		</nav>
+	</header>
+
+	<main>
+		<section>
+			<h2>Benvenuto/a, Admin!</h2>
+			<p>Gestisci il database dei videogiochi, aggiungi nuovi titoli e modifica quelli esistenti.</p>
+		</section>
+
+		<section id="logo">
+			<img src="/videogiochi.jpg" alt="SIW Games - Admin">
+		</section>
+
+		<!-- SEZIONE SPECIALE PER GLI ADMIN -->
+		<section class="admin-panel">
+			<h2>🔧 Operazioni per l'Admin </h2>
+			<div class="admin-options">
+				<a href="/admin/aggiungiVideogioco" class="admin-button">➕ Aggiungi Nuovo Videogioco</a>
+				<a href="/admin/gestisciVideogiochi" class="admin-button">⚙️ Gestisci Videogiochi</a>
+			</div>
+		</section>
+	</main>
+
+	<footer>
+		<p>Sito per il corso di Sistemi Informativi sul Web - Area Admin</p>
+	</footer>
+</body>
+
+</html>

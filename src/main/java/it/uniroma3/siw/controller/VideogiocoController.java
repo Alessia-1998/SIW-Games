@@ -89,7 +89,7 @@ public class VideogiocoController {
     @PostMapping("videogiochi/search")
     public String cercaVideogiochi(@RequestParam(required = false) String titolo, @RequestParam(required = false) Integer anno, Model model) {
         List<Videogioco> videogiochi = Collections.emptyList() ;
-        if (titolo != null) {
+        if (!titolo.isBlank()) {  // cioè se non è nullo o non è esattamente vuoto (cioè se non ha solo spazi bianchi) 
             videogiochi = videogiocoService.cercaPerTitolo(titolo);
         } else if (anno != null) {
             videogiochi = videogiocoService.cercaPerAnno(anno);

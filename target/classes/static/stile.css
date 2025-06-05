@@ -5,6 +5,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+	padding-top: 80px; /* Evita che il contenuto venga coperto dall'header */
 }
 
 /* Header */
@@ -13,6 +14,11 @@ header {
     padding: 20px;
     text-align: center;
 	border-bottom: 2px solid #ffaa33; /*barra separatrice */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1000; /* Assicura che rimanga sopra gli altri elementi */
 }
 
 h1 {
@@ -53,6 +59,7 @@ main {
 }
 
 h2 {
+	margin-top: 40px; /* Allontana un pochino il testo dalla barra di navigazione */
     color: #f5a623;
 }
 
@@ -252,5 +259,42 @@ a {
 a:hover {
     color: #ff7700; /* Tonalità più scura al passaggio del mouse */
     text-decoration: underline;
+}
+
+/* Per ADMIN */
+.admin-panel {
+    background-color: #ffaa33; /* Colore distintivo */
+    padding: 20px;
+    text-align: center;
+    border-top: 3px solid #ff8800;
+    margin-top: 40px;
+    border-radius: 50px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto; /* Centrato nella pagina */
+}
+
+.admin-options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.admin-button {
+    padding: 10px 20px;
+    background-color: #222;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.admin-button:hover {
+    background-color: #444;
+}
+
+.admin-panel h2{
+	color: #3d0d06;
 }
 
