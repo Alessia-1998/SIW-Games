@@ -11,5 +11,6 @@ public interface VideogiocoRepository extends CrudRepository<Videogioco, Long> {
   public List<Videogioco> findByTitoloContainingIgnoreCase(String titolo);
   
   public List<Videogioco> findByAnno(Integer anno);
+  public boolean existsByTitleAndYear(String titolo, Integer anno);
 
 }
