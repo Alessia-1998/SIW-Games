@@ -36,10 +36,11 @@
     </section>
     <section class="lista-container">
         <div th:each="videogioco : ${videogiochi}" class="card">
-            <img th:src="${videogioco.image}" alt="Immagine di ${videogioco.titolo}">
+            <img th:src="${videogioco.image != null ? videogioco.image : '/defaultcover.png'}" alt="Immagine di ${videogioco.titolo}">
             <div class="card-content">
                 <h2><a th:href="@{/videogiochi/{id}(id=${videogioco.id})}" th:text="${videogioco.titolo}"></a></h2>
-                <p th:text="${videogioco.sviluppatore.nome}"></p>
+				<p th:if="${videogioco.sviluppatore != null}" th:text="${videogioco.sviluppatore.nome}"></p>
+				<p th:unless="${videogioco.sviluppatore != null}">Nessuno</p>
             </div>
         </div>
     </section>

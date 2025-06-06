@@ -3,7 +3,6 @@ package it.uniroma3.siw.model;
 import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,10 +29,12 @@ public class Videogioco {
 	@Max(2025)
 	private Integer anno;  // anno di uscita
 	
+	@NotBlank
 	private String descrizione;
 	
 	private String image; // percorso immagine
 	
+	@NotBlank
 	private String genere;
 	
 	@ManyToMany 

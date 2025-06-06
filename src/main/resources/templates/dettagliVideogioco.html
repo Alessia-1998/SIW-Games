@@ -36,7 +36,9 @@
                 <p><strong>Anno di uscita:</strong> <span th:text="${videogioco.anno}"></span></p>
                 <p><strong>Genere:</strong> <span th:text="${videogioco.genere}"></span></p>
                 <p><strong>Descrizione:</strong> <span th:text="${videogioco.descrizione}"></span></p>
-				<p><strong>Sviluppatore:</strong> <span th:text="${videogioco.sviluppatore.nome}"></span></p>
+				<p><strong>Sviluppatore:</strong>
+					<span th:if="${videogioco.sviluppatore != null}" th:text="${videogioco.sviluppatore.nome}"></span>
+					   <span th:unless="${videogioco.sviluppatore != null}">Nessuno</span>
 				
 				<p><strong>Piattaforme:</strong> 
 				    <span th:each="piattaforma, iterStat : ${videogioco.piattaforme}" th:text="${piattaforma.nome} + ${!iterStat.last ? ', ' : ''}"></span>

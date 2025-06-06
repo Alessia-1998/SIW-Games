@@ -1,18 +1,22 @@
 package it.uniroma3.siw.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.multipart.MultipartFile;
+import it.uniroma3.siw.controller.validator.VideogiocoValidator;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Piattaforma;
 import it.uniroma3.siw.model.Sviluppatore;
@@ -23,15 +27,22 @@ import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.PiattaformaService;
 import it.uniroma3.siw.service.SviluppatoreService;
 import it.uniroma3.siw.service.VideogiocoService;
+import jakarta.validation.Valid;
 
 @Controller
 public class VideogiocoController {
+
+    private final VideogiocoValidator videogiocoValidator;
 	
 	@Autowired private VideogiocoService videogiocoService;
 	@Autowired private CredentialsService credentialsService;
 	@Autowired private UserRepository userRepository;
 	@Autowired private PiattaformaService piattaformaService;
 	@Autowired private SviluppatoreService sviluppatoreService;
+
+    VideogiocoController(VideogiocoValidator videogiocoValidator) {
+        this.videogiocoValidator = videogiocoValidator;
+    }
 	
 	// LISTA DEI VIDEOGIOCHI
 	@GetMapping("/videogiochi")
@@ -186,36 +197,42 @@ public class VideogiocoController {
 	    }
 	    return "redirect:/admin/modificaVideogioco/" + videogiocoId;
 	}
-
-        //AGGIUNGI NUOVO VIDEOGIOCO
-	@PostMapping("admin/aggiungiVideogioco")
-	//NEL POST MAPPING POSSIAMO UTILIZZARE IL BINDING CHE CONTROLLA LA VALIDAZIONE
-	//public String newVideogioco(@Valid @ModelAttribute("videogioco") Videogioco videogioco, BindingResult bindingResult ,Model model)
 	
-	public String aggiungiVideogioco(
-	        @RequestParam String titolo,
-	        @RequestParam Integer anno,
-	        @RequestParam(required = false) String descrizione,
-	        @RequestParam(required = false) String genere,
-	        Model model) {
-
-	    Videogioco videogioco = new Videogioco();
-	    videogioco.setTitolo(titolo);
-	    videogioco.setAnno(anno);
-	    videogioco.setDescrizione(descrizione);
-	    videogioco.setGenere(genere);
-
-	    videogiocoService.save(videogioco);
-
-	    return "formAddVideogioco.html";
-	}
-
 	
-     // FORM PER L'AGGIUNTA  DEI VIDEOGIOCHI 
+	// VISUALIZZA LA FORM PER L'AGGIUNTA DEI VIDEOGIOCHI 
     @GetMapping("/admin/aggiungiVideogioco")
-    public String aggiungiVideogioco() {
+    public String aggiungiVideogioco(Model model) {
+    	model.addAttribute("videogioco", new Videogioco());
         return "admin/aggiungiVideogioco.html";
     }
+    
+    //AGGIUNGI NUOVO VIDEOGIOCO
+    @PostMapping("/admin/aggiungiVideogioco")
+    public String newVideogioco(@Valid @ModelAttribute("videogioco") Videogioco videogioco, BindingResult bindingResult,
+    		@RequestParam(value="image" ,required = false) MultipartFile image, Model model) throws IOException {
+    	this.videogiocoValidator.validate(videogioco, bindingResult); // Validazione
+
+    	if (!bindingResult.hasErrors()) {
+
+
+    		if (image != null && image.getSize() > 0) {
+    		    String filePath = "images/" + image.getOriginalFilename();
+    		    File file = new File(filePath);
+    		    image.transferTo(file);
+    		    videogioco.setImage(filePath);
+    		} else {
+    		    videogioco.setImage("/defaultcover.png"); // Usa l'immagine di default
+    		}
+
+
+    		this.videogiocoService.save(videogioco);       
+    		model.addAttribute("videogioco", videogioco); //  Ricarica il videogioco inserito 
+    		return "redirect:/videogiochi/" + videogioco.getId();     
+    	} else {       
+    		return "admin/aggiungiVideogioco";     
+    	}
+    }
+	
 
 
 }
