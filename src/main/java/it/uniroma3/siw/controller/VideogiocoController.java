@@ -187,7 +187,35 @@ public class VideogiocoController {
 	    return "redirect:/admin/modificaVideogioco/" + videogiocoId;
 	}
 
-    
+        //AGGIUNGI NUOVO VIDEOGIOCO
+	@PostMapping("admin/aggiungiVideogioco")
+	//NEL POST MAPPING POSSIAMO UTILIZZARE IL BINDING CHE CONTROLLA LA VALIDAZIONE
+	//public String newVideogioco(@Valid @ModelAttribute("videogioco") Videogioco videogioco, BindingResult bindingResult ,Model model)
+	
+	public String aggiungiVideogioco(
+	        @RequestParam String titolo,
+	        @RequestParam Integer anno,
+	        @RequestParam(required = false) String descrizione,
+	        @RequestParam(required = false) String genere,
+	        Model model) {
+
+	    Videogioco videogioco = new Videogioco();
+	    videogioco.setTitolo(titolo);
+	    videogioco.setAnno(anno);
+	    videogioco.setDescrizione(descrizione);
+	    videogioco.setGenere(genere);
+
+	    videogiocoService.save(videogioco);
+
+	    return "formAddVideogioco.html";
+	}
+
+	
+     // FORM PER L'AGGIUNTA  DEI VIDEOGIOCHI 
+    @GetMapping("/admin/aggiungiVideogioco")
+    public String aggiungiVideogioco() {
+        return "admin/aggiungiVideogioco.html";
+    }
 
 
 }
