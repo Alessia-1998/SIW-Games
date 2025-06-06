@@ -17,7 +17,7 @@ public class VideogiocoValidator implements Validator{
 	public void validate(Object v, Errors errors) {
 		Videogioco videogioco = (Videogioco) v;
 		if (videogioco.getTitolo() != null && videogioco.getAnno() != null
-			&& videogiocoRepository.existsByTitleAndYear(videogioco.getTitolo(), videogioco.getAnno()) ) {
+			&& videogiocoRepository.existsByTitoloAndAnno(videogioco.getTitolo(), videogioco.getAnno()) ) {
 			errors.reject("videogioco.duplicate"); // specifica che c'è stato un errore nella validazione e registra un codice di errore
 		}
 	}
