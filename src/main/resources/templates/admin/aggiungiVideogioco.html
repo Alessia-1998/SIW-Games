@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIW Games - Aggiungi Videogiochi</title>
+    <link rel="stylesheet" href="/stile.css">
+</head>
+<body>
+    <header>
+        <h1>🎮 SIW Games 🕹️</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/videogiochi">Lista Videogiochi</a></li>
+                <li><a href="/sviluppatori">Sviluppatori</a></li>
+                <li><a href="/piattaforme">Piattaforme</a></li>
+                <li><a href="/videogiochi/formSearchGiochi">Ricerca</a></li>
+                <li th:if="${userDetails}"><a href="/videogiochi/preferiti">Preferiti</a></li>
+                <li th:if="${userDetails}">
+                    <span th:text="${userDetails.username}"></span>
+                    <a href="/logout">Logout</a>
+                </li>
+                <li th:unless="${userDetails}">
+                    <a href="/login">Accedi</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+	<main>
+		<section class="login-container"> <!-- Riutilizziamo lo stile del login -->
+			<h2>🔍 Aggiungi un videogioco</h2>
+<form th:action="@{/admin/aggiungiVideogioco}" method="POST" th:object="${videogioco}">
+	            <div th:if="${#fields.hasGlobalErrors()}">
+	                <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="error-message">Siamo spiacenti, c'è un errore...</p>
+	            </div>
+	            <div>
+	                <label>Titolo:</label> <span><input type="required" th:field="${videogioco.titolo}" /></span>
+	                <span th:if="${#fields.hasErrors('titolo')}" th:errors="{titolo}" class="error-message">Errore</span>
+	            </div>
+	            <div>
+	                <label>Anno:</label> <span><input type="required" th:field="${videogioco.anno}"/></span>
+	                <span th:if="${#fields.hasErrors('anno')}" th:errors="{anno}" class="error-message">Errore</span>
+	            </div>
+	            <div>
+	               <label>Descrizione:</label> <span><input type="required" th:field="${videogioco.descrizione}" /></span>
+	                <span th:if="${#fields.hasErrors('descrizione')}" th:errors="{descrizione}" class="error-message">Errore</span> 
+	            </div>
+              <div>
+                <label>Immagine:</label> <span><input type="required" th:field="${videogioco.image}" /></span>
+	                <span th:if="${#fields.hasErrors('image')}" th:errors="{image}" class="error-message">Errore</span>
+              </div>
+              <div>
+                <label>Genere:</label> <span><input type="required" th:field="${videogioco.genere}" /></span>
+	                <span th:if="${#fields.hasErrors('genere')}" th:errors="{genere}" class="error-message">Errore</span>
+              </div>
+	            <div>
+	                <span><button type="submit">Aggiungi</button></span>
+	            </div>
+	</form>
