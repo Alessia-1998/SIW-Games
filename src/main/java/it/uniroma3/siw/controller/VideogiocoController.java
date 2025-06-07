@@ -197,6 +197,22 @@ public class VideogiocoController {
 	    }
 	    return "redirect:/admin/modificaVideogioco/" + videogiocoId;
 	}
+
+    // MODIFICA ANNO, GENERE E DESCRIZIONE ESISTENTI
+    @PostMapping("/admin/{videogiocoId}/modifica")
+    public String modificaVideogioco(@PathVariable Long videogiocoId, @ModelAttribute("videogioco") Videogioco videogioco) {
+               Videogioco videogiocoEsistente = videogiocoService.getVideogiocoById(videogiocoId);
+
+        // Aggiorna i dati
+        videogiocoEsistente.setAnno(videogioco.getAnno());
+        videogiocoEsistente.setGenere(videogioco.getGenere());
+        videogiocoEsistente.setDescrizione(videogioco.getDescrizione());
+
+        // Salva le modifiche nel database
+        videogiocoService.save(videogiocoEsistente);
+
+        return "redirect:/videogiochi/" + videogiocoId;
+    }
 	
 	
 	// VISUALIZZA LA FORM PER L'AGGIUNTA DEI VIDEOGIOCHI 
