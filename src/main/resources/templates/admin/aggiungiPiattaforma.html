@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SIW Games - Aggiungi Piattaforma</title>
+	<link rel="stylesheet" href="/stile.css">
+</head>
+
+<body>
+	<header>
+		<h1>🎮 SIW Games 🕹️</h1>
+		<nav>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/videogiochi">Lista Videogiochi</a></li>
+				<li><a href="/sviluppatori">Sviluppatori</a></li>
+				<li><a href="/piattaforme">Piattaforme</a></li>
+				<li><a href="/videogiochi/formSearchGiochi">Ricerca</a></li>
+				<li th:if="${userDetails}"><a href="/videogiochi/preferiti">Preferiti</a></li>
+				<li th:if="${userDetails}">
+					<span th:text="${userDetails.username}"></span>
+					<a href="/logout">Logout</a>
+				</li>
+				<li th:unless="${userDetails}">
+					<a href="/login">Accedi</a>
+				</li>
+			</ul>
+		</nav>
+	</header>
+
+	<main>
+		<section class="login-container"> <!-- Riutilizziamo lo stile del login -->
+			<h2>Aggiungi una piattaforma</h2>
+			<form th:action="@{/admin/aggiungiPiattaforma}" method="POST" th:object="${piattaforma}" enctype="multipart/form-data">
+
+				<div th:if="${#fields.hasGlobalErrors()}">
+					<p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="error-message">...</p>
+				</div>
+				<div>
+					<label>Nome:</label>
+					<input type="text" id="nome" th:field="${piattaforma.nome}" >
+					<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"
+						class="error-message"></span>
+				</div>
+				<div>
+					<label>Descrizione:</label>
+					<input type="text" id="descrizione" th:field="${piattaforma.descrizione}" >
+					<span th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}"
+						class="error-message"></span>
+				</div>
+				<div>
+					<label>Produttore:</label>
+					<input type="text" id="produttore" th:field="${piattaforma.produttore}">
+					<span th:if="${#fields.hasErrors('produttore')}" th:errors="*{produttore}" class="error-message"></span>
+				</div>
+				<div>
+					<label>Data di rilascio:</label>
+					<input type="date" id="dataDiRilascio" th:field="${piattaforma.dataDiRilascio}">
+					<span th:if="${#fields.hasErrors('dataDiRilascio')}" th:errors="*{dataDiRilascio}" class="error-message"></span>
+				</div>
+				<div>
+					<label>Immagine:</label>
+					<input type="file" id="image" name="immagineFile" accept="image/*">
+				</div>
+				<div>
+					<button type="submit">Aggiungi</button>
+				</div>
+			</form>
+
+			<p>Hai cambiato idea? <a th:href="@{/}">Torna indietro</a></p>
+
+		</section>
+	</main>
+
+	<footer>
+		<p>Sito per il corso di Sistemi Informativi sul Web</p>
+	</footer>
+</body>
+
+</html>
+
