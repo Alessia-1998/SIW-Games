@@ -31,18 +31,13 @@ import jakarta.validation.Valid;
 
 @Controller
 public class VideogiocoController {
-
-    private final VideogiocoValidator videogiocoValidator;
 	
 	@Autowired private VideogiocoService videogiocoService;
 	@Autowired private CredentialsService credentialsService;
 	@Autowired private UserRepository userRepository;
 	@Autowired private PiattaformaService piattaformaService;
 	@Autowired private SviluppatoreService sviluppatoreService;
-
-    VideogiocoController(VideogiocoValidator videogiocoValidator) {
-        this.videogiocoValidator = videogiocoValidator;
-    }
+	@Autowired private VideogiocoValidator videogiocoValidator;
 	
 	// LISTA DEI VIDEOGIOCHI
 	@GetMapping("/videogiochi")
@@ -136,13 +131,18 @@ public class VideogiocoController {
     
     // ELIMINA VIDEOGIOCO
     @PostMapping("/admin/eliminaVideogioco/{id}") 
-    	public String eliminaVideogioco(@PathVariable("id") Long id) {
-    	    Videogioco videogioco = videogiocoService.getVideogiocoById(id);
-    	    if (videogioco != null) {
-    	        videogiocoService.delete(videogioco); //  Elimina il videogioco dal database
-    	    }
-    	    return "redirect:/admin/gestisciVideogiochi"; // Torna alla lista dopo l'eliminazione
+    public String eliminaVideogioco(@PathVariable("id") Long id, Principal principal) {
+    	Videogioco videogioco = videogiocoService.getVideogiocoById(id);
+    	if (videogioco != null) {
+    		// Se l'utente NON è autenticato, saltiamo la parte di "credentials"
+    		Credentials credentials = (principal != null) ? credentialsService.findByUsername(principal.getName()).orElse(null) : null ;
+    		// variabile = (condizione) ? valore_se_vero : valore_se_falso 
+    		User user = (credentials != null) ? credentials.getUser() : null;
+    		if(user.getPreferiti().contains(videogioco)) user.getPreferiti().remove(videogioco); // Rimuovi il videogioco dalla lista dei preferiti se presente
+    		videogiocoService.delete(videogioco); //  Elimina il videogioco dal database
     	}
+    	return "redirect:/admin/gestisciVideogiochi"; // Torna alla lista dopo l'eliminazione
+    }
     
     // MODIFICA GIOCO PER AGGIUNGERE/ELIMINARE PIATTAFORME E UN SOLO SVILUPPATORE
     @GetMapping("/admin/modificaVideogioco/{id}")
@@ -189,13 +189,19 @@ public class VideogiocoController {
 	// POSSO IMPOSTARE SOLO UNO SVILUPPATORE ALLA VOLTA 
 	@PostMapping("/admin/{videogiocoId}/modificaSviluppatore")
 	public String modificaSviluppatore(@PathVariable("videogiocoId") Long videogiocoId, @RequestParam Long sviluppatoreId) {
-	    Videogioco videogioco = videogiocoService.getVideogiocoById(videogiocoId);
-	    Sviluppatore sviluppatore = sviluppatoreService.getSviluppatoreById(sviluppatoreId);
-	    if (videogioco != null && sviluppatore != null) {
-	        videogioco.setSviluppatore(sviluppatore); 
-	        videogiocoService.save(videogioco);
-	    }
-	    return "redirect:/admin/modificaVideogioco/" + videogiocoId;
+		Videogioco videogioco = videogiocoService.getVideogiocoById(videogiocoId);
+		/* Se seleziono come sviluppatore "nessuno" con id fittizio -1 */
+		if (sviluppatoreId == -1) { 
+			videogioco.setSviluppatore(null);
+			videogiocoService.save(videogioco);
+		}
+		/* Se seleziono uno sviluppatore già presente nel database */
+		else if (videogioco != null) {
+			Sviluppatore sviluppatore = sviluppatoreService.getSviluppatoreById(sviluppatoreId);
+			videogioco.setSviluppatore(sviluppatore); 
+			videogiocoService.save(videogioco);
+		}
+		return "redirect:/admin/modificaVideogioco/" + videogiocoId;
 	}
 
     // MODIFICA ANNO, GENERE E DESCRIZIONE ESISTENTI
@@ -225,20 +231,32 @@ public class VideogiocoController {
     //AGGIUNGI NUOVO VIDEOGIOCO
     @PostMapping("/admin/aggiungiVideogioco")
     public String newVideogioco(@Valid @ModelAttribute("videogioco") Videogioco videogioco, BindingResult bindingResult,
-    		@RequestParam(value="image" ,required = false) MultipartFile image, Model model) throws IOException {
+    		@RequestParam(value="immagineFile" ,required = false) MultipartFile image, Model model) throws IOException {
     	this.videogiocoValidator.validate(videogioco, bindingResult); // Validazione
 
     	if (!bindingResult.hasErrors()) {
 
 
-    		if (image != null && image.getSize() > 0) {
-    		    String filePath = "images/" + image.getOriginalFilename();
-    		    File file = new File(filePath);
+    		// PER GESTIRE L'UPLOAD DELLE IMMAGINI //
+    		if (image != null && !image.isEmpty()) {
+    			String uploadDir = System.getProperty("user.dir") + File.separator + "uploads";
+    			System.out.println("Tentativo creazione cartella in: " + uploadDir);
+    			File dir = new File(uploadDir);
+
+    			if (!dir.exists()) {
+    			    boolean created = dir.mkdirs();
+    			    System.out.println("Cartella creata? " + created);
+    			} else {
+    			    System.out.println("Cartella già esistente");
+    			}
+
+    			File file = new File(dir, image.getOriginalFilename());
     		    image.transferTo(file);
-    		    videogioco.setImage(filePath);
+    		    videogioco.setImage("/uploads/" + image.getOriginalFilename());
     		} else {
-    		    videogioco.setImage("/defaultcover.png"); // Usa l'immagine di default
+    		    videogioco.setImage("/defaultcover.png");
     		}
+    		//////////////////////////////////////////////
 
 
     		this.videogiocoService.save(videogioco);       

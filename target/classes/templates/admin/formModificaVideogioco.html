@@ -37,16 +37,28 @@
 				alt="Copertina di ${videogioco.titolo}">
 			<div class="dettagli-content">
 				<h2 th:text="${videogioco.titolo}"></h2>
-				<p><strong>Anno di uscita:</strong> <span th:text="${videogioco.anno}"></span></p>
-				<p><strong>Genere:</strong> <span th:text="${videogioco.genere}"></span></p>
-				<p><strong>Descrizione:</strong> <span th:text="${videogioco.descrizione}"></span></p>
+				<form th:action="@{/admin/{videogiocoId}/modifica(videogiocoId=${videogioco.id})}" method="post" th:object="${videogioco}">
+				    <div>
+				        <label>Anno di uscita:</label>
+				        <input type="number" th:field="*{anno}" value="${videogioco.anno}">
+				    </div>
+				    <div>
+				        <label>Genere:</label>
+				        <input type="text" th:field="*{genere}" value="${videogioco.genere}">
+				    </div>
+				    <div>
+				        <label>Descrizione:</label>
+				        <textarea th:field="*{descrizione}">${videogioco.descrizione}</textarea>
+				    </div>
+				    <button type="submit">💾 Salva Modifiche</button>
+				</form>
 
 				<!-- Modifica sviluppatore -->
 				<h3>Modifica Sviluppatore</h3>
 				<form th:action="@{/admin/{videogiocoId}/modificaSviluppatore(videogiocoId=${videogioco.id})}"
 					method="post">
 					<select name="sviluppatoreId">
-						<option value="" th:selected="${videogioco.sviluppatore == null}">Nessuno</option>
+						<option value="-1" th:selected="${videogioco.sviluppatore == null}">Nessuno</option>
 						<option th:each="sviluppatore : ${sviluppatoriDisponibili}" 
 						    th:value="${sviluppatore.id}"
 						    th:text="${sviluppatore.nome}"

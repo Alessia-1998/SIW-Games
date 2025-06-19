@@ -20,6 +20,7 @@ public class Sviluppatore {
 	@NotBlank
     private String nome;
 	
+	@NotBlank
 	private String sede;
 	
 	private String image; // percorso immagine

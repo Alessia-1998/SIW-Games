@@ -58,7 +58,7 @@
 				<form th:action="@{/admin/{videogiocoId}/modificaSviluppatore(videogiocoId=${videogioco.id})}"
 					method="post">
 					<select name="sviluppatoreId">
-						<option value="" th:selected="${videogioco.sviluppatore == null}">Nessuno</option>
+						<option value="-1" th:selected="${videogioco.sviluppatore == null}">Nessuno</option>
 						<option th:each="sviluppatore : ${sviluppatoriDisponibili}" 
 						    th:value="${sviluppatore.id}"
 						    th:text="${sviluppatore.nome}"
