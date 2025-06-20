@@ -134,12 +134,15 @@ public class VideogiocoController {
     public String eliminaVideogioco(@PathVariable("id") Long id, Principal principal) {
     	Videogioco videogioco = videogiocoService.getVideogiocoById(id);
     	if (videogioco != null) {
-    		// Se l'utente NON è autenticato, saltiamo la parte di "credentials"
-    		Credentials credentials = (principal != null) ? credentialsService.findByUsername(principal.getName()).orElse(null) : null ;
-    		// variabile = (condizione) ? valore_se_vero : valore_se_falso 
-    		User user = (credentials != null) ? credentials.getUser() : null;
-    		if(user.getPreferiti().contains(videogioco)) user.getPreferiti().remove(videogioco); // Rimuovi il videogioco dalla lista dei preferiti se presente
-    		videogiocoService.delete(videogioco); //  Elimina il videogioco dal database
+    		// Recupera tutti gli utenti, in modo da eliminare il videogioco da OGNI lista dei preferiti
+    		List<User> utenti = (List<User>) userRepository.findAll();
+    		for (User u : utenti) {
+    			if (u.getPreferiti().contains(videogioco)) {
+    				u.getPreferiti().remove(videogioco);
+    				userRepository.save(u); // Aggiorna l'utente
+    			}
+    		}
+    		videogiocoService.delete(videogioco); // Ora posso eliminare il videogioco
     	}
     	return "redirect:/admin/gestisciVideogiochi"; // Torna alla lista dopo l'eliminazione
     }
